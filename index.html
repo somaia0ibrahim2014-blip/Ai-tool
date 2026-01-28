@@ -1,49 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Wait...</title>
+<title>Security Alert</title>
+
 <style>
-body {
-  background:black;
-  color:red;
-  font-family:monospace;
-  font-size:20px;
-  padding:20px;
-}
-.warning {
-  color:lime;
-}
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    color: #00ff00;
+    font-family: Consolas, monospace;
+    overflow: hidden;
+  }
+
+  #terminal {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.4;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .warn {
+    color: red;
+    font-weight: bold;
+  }
+
+  .alert {
+    color: yellow;
+  }
+
+  .final {
+    color: red;
+    font-size: 42px;
+    text-align: center;
+    font-weight: bold;
+    animation: shake 0.15s infinite;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
+    100% { transform: translateX(0); }
+  }
 </style>
 </head>
+
 <body>
 
-<div id="screen"></div>
+<div id="terminal"></div>
 
 <script>
-const messages = [
-  "Initializing system...",
-  "Connecting to server...",
-  "Access granted.",
-  "WARNING: suspicious activity detected",
-  "WARNING: data scanning...",
-  "WARNING: system compromised",
-  "You got fooled 😈",
-  "Relax, it's just a prank."
-];
+  const terminal = document.getElementById("terminal");
 
-let i = 0;
-const screen = document.getElementById("screen");
+  const spamLines = [
+    "[INFO] Initializing system scan...",
+    "[INFO] Scanning active processes...",
+    "[INFO] Checking network adapters...",
+    "[ALERT] Unrecognized connection detected",
+    "[WARNING] Firewall bypass attempt",
+    "[WARNING] Unauthorized read access",
+    "[ALERT] Multiple security violations",
+    "[ERROR] Data integrity compromised",
+    "[ERROR] Session hijack suspected",
+    "[WARNING] System response delayed",
+    "[ALERT] Escalating threat level",
+    "[ERROR] BREACH CONFIRMED",
+    "[ERROR] Injected process detected",
+    "[WARNING] Memory dump in progress",
+    "[ALERT] Attempting containment..."
+  ];
 
-function show() {
-  if (i < messages.length) {
-    screen.innerHTML += messages[i] + "<br>";
-    window.scrollTo(0, document.body.scrollHeight);
-    i++;
-    setTimeout(show, 800);
+  let count = 0;
+
+  function spam() {
+    const line = document.createElement("div");
+    line.textContent =
+      spamLines[Math.floor(Math.random() * spamLines.length)];
+
+    if (line.textContent.includes("ERROR")) line.className = "warn";
+    if (line.textContent.includes("ALERT")) line.className = "alert";
+
+    terminal.appendChild(line);
+    terminal.scrollTop = terminal.scrollHeight;
+    count++;
+
+    if (count < 60) {
+      setTimeout(spam, 700);
+    } else {
+      countdown();
+    }
   }
-}
-show();
+
+  function countdown() {
+    let timer = 10;
+    const cd = document.createElement("div");
+    cd.className = "warn";
+    terminal.appendChild(cd);
+
+    const interval = setInterval(() => {
+      cd.textContent = "[CRITICAL] System lockdown in " + timer;
+      terminal.scrollTop = terminal.scrollHeight;
+      timer--;
+
+      if (timer < 0) {
+        clearInterval(interval);
+        reveal();
+      }
+    }, 1000);
+  }
+
+  function reveal() {
+    document.body.innerHTML = `
+      <div class="final">
+        THIS WAS A PRANK 😈<br><br>
+        YOU GOT FOOLED
+      </div>
+    `;
+  }
+
+  spam();
 </script>
 
 </body>
