@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Wait...</title>
+<style>
+body {
+  background:black;
+  color:red;
+  font-family:monospace;
+  font-size:20px;
+  padding:20px;
+}
+.warning {
+  color:lime;
+}
+</style>
+</head>
+<body>
+
+<div id="screen"></div>
+
+<script>
+const messages = [
+  "Initializing system...",
+  "Connecting to server...",
+  "Access granted.",
+  "WARNING: suspicious activity detected",
+  "WARNING: data scanning...",
+  "WARNING: system compromised",
+  "You got fooled 😈",
+  "Relax, it's just a prank."
+];
+
+let i = 0;
+const screen = document.getElementById("screen");
+
+function show() {
+  if (i < messages.length) {
+    screen.innerHTML += messages[i] + "<br>";
+    window.scrollTo(0, document.body.scrollHeight);
+    i++;
+    setTimeout(show, 800);
+  }
+}
+show();
+</script>
+
+</body>
+</html>
